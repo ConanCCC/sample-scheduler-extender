@@ -14,6 +14,7 @@ import (
 
 func Index(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	fmt.Fprint(w, "Welcome to sample-scheduler-extender!\n")
+	log.Printf("index\n")
 }
 
 func Filter(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
@@ -21,6 +22,7 @@ func Filter(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	body := io.TeeReader(r.Body, &buf)
 	var extenderArgs schedulerapi.ExtenderArgs
 	var extenderFilterResult *schedulerapi.ExtenderFilterResult
+	log.Printf("filter\n")
 	if err := json.NewDecoder(body).Decode(&extenderArgs); err != nil {
 		extenderFilterResult = &schedulerapi.ExtenderFilterResult{
 			Error: err.Error(),
@@ -43,6 +45,7 @@ func Prioritize(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	body := io.TeeReader(r.Body, &buf)
 	var extenderArgs schedulerapi.ExtenderArgs
 	var hostPriorityList *schedulerapi.HostPriorityList
+	log.Printf("priority\n")
 	if err := json.NewDecoder(body).Decode(&extenderArgs); err != nil {
 		hostPriorityList = &schedulerapi.HostPriorityList{}
 	} else {
